@@ -22,13 +22,12 @@ class MoodApp(QtWidgets.QMainWindow):
             dictionary.update({self.ui.DATE.text():self.ui.MOOD.toPlainText()})
 
 
-        #eli: 
-        elif self.ui.DATE.text() in dictionary:
+        elif dictionary.get(self.ui.DATE.text()) == None:
+        #elif self.ui.DATE.text() in dictionary:
             print("you havent inputed anything for this stupid!!!!!")
 
         else:
             #print from our hasmap
-            
             self.ui.label.setText("RESULT: " + str(dictionary[self.ui.DATE.text()]))
 
 
