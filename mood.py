@@ -19,19 +19,16 @@ class MoodApp(QtWidgets.QMainWindow):
         if self.sender().text() == 'ENTER':
             print("Enter")
             #add to our hashmap
-            dictionary.update({self.ui.DATE.text():self.ui.MOOD.toPlainText()})
+            dictionary.update({self.ui.CALENDAR.selectedDate().toString():self.ui.MOOD.toPlainText()})
 
 
-        elif dictionary.get(self.ui.DATE.text()) == None:
+        elif dictionary.get(self.ui.CALENDAR.selectedDate().toString()) == None:
         #elif self.ui.DATE.text() in dictionary:
             print("you havent inputed anything for this stupid!!!!!")
 
-        else:
+        else:   
             #print from our hasmap
-            self.ui.label.setText("RESULT: " + str(dictionary[self.ui.DATE.text()]))
-
-
-
+            self.ui.label.setText("RESULT: " + str(dictionary[self.ui.CALENDAR.selectedDate().toString()]))
 
 
 
