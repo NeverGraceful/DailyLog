@@ -1,5 +1,6 @@
 import sys
-
+# from dummy import Ui_MainWindow #import dummy window
+# from splash import 
 from PyQt5 import QtWidgets 
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QDialog, QSplashScreen, QProgressBar

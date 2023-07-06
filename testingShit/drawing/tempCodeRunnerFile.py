@@ -114,6 +114,21 @@ class MainWindow(QtWidgets.QMainWindow):
             b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c))
             layout.addWidget(b)
     
+    # def save_image(self):
+    #     file_path, _=  QtWidgets.QFileDialog.getSaveFileName(self, "Save Image", "",
+    #                      "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+        
+
+    #     if file_path  == "":
+    #         return
+
+    #     # toImage() const
+    #     # p = self.pixmap.toImage()
+    #     self.pixmap().save(file_path)
+
+        # picPath = os.getcwd() + "C:\somedirectory\image.png"
+        # print (picPath)
+        # picMap = QtGui.QPixmap(picPath) 
     
 
 
