@@ -1,0 +1,1 @@
+self.pixmap().save(file_path)

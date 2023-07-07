@@ -1,6 +1,9 @@
 import os,sys
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
+from datetime import date
+from data_structuresBig import drawing_dictionary
+from mainVOne import Ui_MainWindow
 
 
 class Canvas(QtWidgets.QLabel):
@@ -47,17 +50,10 @@ class Canvas(QtWidgets.QLabel):
         self.last_y = None
 
     def save_image(self):
-        file_path, _=  QtWidgets.QFileDialog.getSaveFileName(self, "Save Image", "",
-                         "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
-        
-
-        if file_path  == "":
-            return
-
-        # toImage() const
-        # p = self.pixmap.toImage()
-        self.pixmap().save(file_path)
-        drawing_dictionary.update()
+        dir = os.path.join(os.getcwd(),'pastDrawings')
+        today = date.today().strftime("%d-%m-%Y")
+        self.pixmap().save(dir +"\\" +today+".png")
+        #drawing_dictionary.update({today:blah})
 
     
 
@@ -84,35 +80,5 @@ class QPaletteButton(QtWidgets.QPushButton):
 #     def sizeHint(self):
 #         return self.pixmap.size()
     
-class Display(QtWidgets.QWidget):
 
-    def __init__(self):
-        super().__init__()
-        
-
-        self.canvas = Canvas() # Create a canvas
-        main_menu = self.menuBar()
-        file_menu = main_menu.addMenu("File")
-        saveAction = QtWidgets.QAction("Save", self)
-        saveAction.setShortcut("Ctrl + S")
-        file_menu.addAction(saveAction)
-        saveAction.triggered.connect(self.canvas.save_image)
-
-        w = QtWidgets.QWidget() # Create widget
-        l = QtWidgets.QVBoxLayout() # Vertical box layout
-        w.setLayout(l)
-        l.addWidget(self.canvas) # Add canvas to layout
-
-        palette = QtWidgets.QHBoxLayout() # Horizontal box layout
-        self.add_palette_buttons(palette) 
-        l.addLayout(palette)
-
-        self.setCentralWidget(w)
-
-    def add_palette_buttons(self, layout):
-        for c in COLORS:
-            b = QPaletteButton(c)
-            b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c))
-            layout.addWidget(b)
-    
     

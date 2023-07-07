@@ -1,10 +1,9 @@
-from data_structures import Mood_Entry, dictionary
+from practice.data_structures import Mood_Entry, dictionary
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel
 from uiOne import Ui_MainWindow
-from datetime import date
 
 class MoodApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -14,7 +13,6 @@ class MoodApp(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.ENTER.clicked.connect(self.do_something)
         self.ui.RETRIEVE.clicked.connect(self.do_something)
-        today = date.today()
 
     def do_something(self):
 
