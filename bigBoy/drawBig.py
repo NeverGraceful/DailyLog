@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt
 from datetime import date
 from data_structuresBig import drawing_dictionary
 from mainVOne import Ui_MainWindow
+from pathlib import Path
+
 
 
 class Canvas(QtWidgets.QLabel):
@@ -17,10 +19,8 @@ class Canvas(QtWidgets.QLabel):
         self.last_x, self.last_y = None, None
         self.pen_color = QtGui.QColor('#000000')
 
-    
     def set_pen_color(self, c):
         self.pen_color = QtGui.QColor(c)
-
 
     def mouseMoveEvent(self, e):
         if self.last_x is None: #first event
@@ -49,11 +49,14 @@ class Canvas(QtWidgets.QLabel):
         self.last_x = None
         self.last_y = None
 
-    def save_image(self):
-        dir = os.path.join(os.getcwd(),'pastDrawings')
+    def save_image(self): #C:\Users\ajime\OneDrive\Desktop\Code\Summer\SummerProj\pastDrawings
+        dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastDrawings')
         today = date.today().strftime("%d-%m-%Y")
-        self.pixmap().save(dir +"\\" +today+".png")
-        #drawing_dictionary.update({today:blah})
+        print(dir)
+        new_file = dir +"\\" +today+".png"
+        self.pixmap().save(new_file)
+        print("THE ACTUAL KEY: "+today)
+        drawing_dictionary.update({today:new_file})
 
     
 
