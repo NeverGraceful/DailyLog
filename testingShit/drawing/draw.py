@@ -115,4 +115,7 @@ class Display(QtWidgets.QWidget):
             b.pressed.connect(lambda c=c: self.canvas.set_pen_color(c))
             layout.addWidget(b)
     
-    
+app = QtWidgets.QApplication(sys.argv)
+win = Canvas()
+win.show()
+sys.exit(app.exec_())

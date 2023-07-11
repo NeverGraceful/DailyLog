@@ -12,7 +12,8 @@ class Canvas(QtWidgets.QLabel):
      
     def __init__(self):
         super().__init__()
-        pixmap = QtGui.QPixmap(600, 300)
+        pixmap = QtGui.QPixmap(451, 261)
+        
         pixmap.fill(Qt.white)
         self.setPixmap(pixmap)
 
@@ -53,11 +54,10 @@ class Canvas(QtWidgets.QLabel):
         dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastDrawings')
         today = date.today().strftime("%d-%m-%Y")
         print(dir)
-        new_file = dir +"\\" +today+".png"
+        new_file = dir +"\\" + today +".png"
         self.pixmap().save(new_file)
         print("THE ACTUAL KEY: "+today)
         drawing_dictionary.update({today:new_file})
-
     
 
 COLORS = ['#000000', '#FA8072', '#008080', '#FFFFFF']

@@ -1,8 +1,7 @@
-import typing
 from data_structuresBig import Mood_Entry, dictionary, drawing_dictionary
 from drawBig import Canvas, COLORS, QPaletteButton
 import sys, os
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QDialog
 from mainVOne import Ui_MainWindow
@@ -23,20 +22,25 @@ class MoodApp(QtWidgets.QMainWindow):
         l = QtWidgets.QVBoxLayout() # Vertical box layout
         self.ui.DRAW_INPUT.setLayout(l)
         l.addWidget(self.canvas) # Add canvas to layout
-        palette = QtWidgets.QHBoxLayout() # Horizontal box layout
-        self.add_palette_buttons(palette) 
-        l.addLayout(palette)
+        w = self.ui.DRAW_INPUT.width()
+        h = self.ui.DRAW_INPUT.height()
+        self.ui.DRAW_INPUT.setPixmap(self.canvas.pixmap().scaled(w,h,QtCore.Qt.KeepAspectRatio))
+
+        # palette = QtWidgets.QHBoxLayout() # Horizontal box layout
+        # self.add_palette_buttons(palette) 
+        # l.addLayout(palette)
 
         self.ui.CURRENT_DATE.setText(date.today().strftime("%d/%m/%Y"))
         self.ui.SUBMIT.setText("Submit Entry")
         self.ui.PAST_ENTRY.setText("View past entrys")
+
 
     def submitted(self):
         #add to our hashmap
         today = date.today().strftime("%d/%m/%Y") # d1 = today.strftime("%d/%m/%Y") "dd/mm/YY"
         dictionary.update({today:self.ui.TEXT_INPUT.toPlainText()})
         self.canvas.save_image()
-        # dictionary.update({self.ui.CALENDAR.selectedDate().toString():self.ui.MOOD.toPlainText()})
+
 
     def add_palette_buttons(self, layout):
         for c in COLORS:
@@ -48,7 +52,7 @@ class MoodApp(QtWidgets.QMainWindow):
         box = PastWindow()
         box.exec_()
         
-        
+
 class PastWindow(QtWidgets.QDialog):
     def __init__(self):
         super(PastWindow, self).__init__()
@@ -56,19 +60,23 @@ class PastWindow(QtWidgets.QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.ui.RETURN.setText("Return")
+        self.ui.RETURN.clicked.connect(self.close_past)
         self.ui.SAVE_PAST.setText("Save Drawing")
-        self.ui.SAVE_PAST.clicked.connect(self.display_drawing)
-    
+        self.ui.CALENDAR.clicked.connect(self.display_drawing)
+
 
     def display_drawing(self):
-        today = date.today().strftime("%d-%m-%Y") # d1 = today.strftime("%d/%m/%Y") "dd/mm/YY"
         selectedDate = self.ui.CALENDAR.selectedDate().toString("dd-MM-yyyy")
-        print("KEY WE ARE TRYING "+selectedDate)
-        wanted_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastDrawings') +"\\" +today+".png"
-        print("wanted path: "+wanted_path)
+        print("KEY WE ARE TRYING " + selectedDate)
+        wanted_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastDrawings') +"\\" + selectedDate + ".png"
+        print("wanted path: " + wanted_path)
         self.im = QPixmap(wanted_path)
+       # pixmap_resized = self.im.scaled(451, 2, QtCore.Qt.KeepAspectRatio)
         self.ui.PAST_DRAWING.setPixmap(self.im)
         self.show()
+ 
+    def close_past(self):
+        self.close()
 
 
 def window():
