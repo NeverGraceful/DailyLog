@@ -19,10 +19,11 @@ class Ui_Dialog(object):
         self.CALENDAR.setGeometry(QtCore.QRect(20, 20, 312, 183))
         self.CALENDAR.setObjectName("CALENDAR")
         self.DATE_DISPLAYED = QtWidgets.QLabel(Dialog)
-        self.DATE_DISPLAYED.setGeometry(QtCore.QRect(30, 320, 211, 101))
+        self.DATE_DISPLAYED.setGeometry(QtCore.QRect(70, 230, 211, 101))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.DATE_DISPLAYED.setFont(font)
+        self.DATE_DISPLAYED.setText("")
         self.DATE_DISPLAYED.setAlignment(QtCore.Qt.AlignCenter)
         self.DATE_DISPLAYED.setObjectName("DATE_DISPLAYED")
         self.RETURN = QtWidgets.QPushButton(Dialog)
@@ -32,6 +33,7 @@ class Ui_Dialog(object):
         self.PAST_TEXT.setGeometry(QtCore.QRect(370, 40, 451, 251))
         self.PAST_TEXT.setFrameShape(QtWidgets.QFrame.Box)
         self.PAST_TEXT.setAlignment(QtCore.Qt.AlignCenter)
+        self.PAST_TEXT.setWordWrap(True)
         self.PAST_TEXT.setObjectName("PAST_TEXT")
         self.SAVE_PAST = QtWidgets.QPushButton(Dialog)
         self.SAVE_PAST.setGeometry(QtCore.QRect(460, 640, 241, 31))
@@ -46,7 +48,6 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.DATE_DISPLAYED.setText(_translate("Dialog", "Date Displayed"))
         self.RETURN.setText(_translate("Dialog", "PushButton"))
         self.PAST_TEXT.setText(_translate("Dialog", "TextLabel"))
         self.SAVE_PAST.setText(_translate("Dialog", "PushButton"))

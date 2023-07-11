@@ -2,7 +2,6 @@ import os,sys
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from datetime import date
-from data_structuresBig import drawing_dictionary
 from mainVOne import Ui_MainWindow
 from pathlib import Path
 
@@ -52,12 +51,10 @@ class Canvas(QtWidgets.QLabel):
 
     def save_image(self): #C:\Users\ajime\OneDrive\Desktop\Code\Summer\SummerProj\pastDrawings
         dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastDrawings')
-        today = date.today().strftime("%d-%m-%Y")
+        today = date.today().strftime("%m-%d-%Y")
         print(dir)
         new_file = dir +"\\" + today +".png"
         self.pixmap().save(new_file)
-        print("THE ACTUAL KEY: "+today)
-        drawing_dictionary.update({today:new_file})
     
 
 COLORS = ['#000000', '#FA8072', '#008080', '#FFFFFF']
