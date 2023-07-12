@@ -98,7 +98,6 @@ class PastWindow(QtWidgets.QDialog):
         self.show()
         
         
- 
     def close_past(self):
         self.close()
 
