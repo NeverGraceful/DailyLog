@@ -79,7 +79,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="SAVE_PAST">
+  <widget class="QPushButton" name="SAVE_DRAWING">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -103,6 +103,19 @@
    </property>
    <property name="text">
     <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SAVE_TEXT">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>670</y>
+     <width>241</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
    </property>
   </widget>
  </widget>

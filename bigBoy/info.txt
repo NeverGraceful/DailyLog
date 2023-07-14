@@ -1,0 +1,3 @@
+streak: 4
+ava_hat: 4
+points: 4
