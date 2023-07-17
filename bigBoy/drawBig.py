@@ -2,7 +2,6 @@ import os,sys
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from PyQt5.QtCore import Qt
 from datetime import date
-from mainVOne import Ui_MainWindow
 from pathlib import Path
 
 
@@ -11,10 +10,11 @@ class Canvas(QtWidgets.QLabel):
      
     def __init__(self):
         super().__init__()
-        pixmap = QtGui.QPixmap(451, 261)
+        pixmap = QtGui.QPixmap(451, 200)
         
         pixmap.fill(Qt.white)
         self.setPixmap(pixmap)
+        
 
         self.last_x, self.last_y = None, None
         self.pen_color = QtGui.QColor('#000000')

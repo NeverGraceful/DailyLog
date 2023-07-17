@@ -9,13 +9,14 @@ from datetime import date
 from pathlib import Path
 import shutil
 import re
+from datetime import date, timedelta
 #main window where the user draws and writes fo rthe days entrys
 
 class MoodApp(QtWidgets.QMainWindow):
     #sets up UI, does the formatting for the canvas
     def __init__(self):
         super(MoodApp, self).__init__()
-        self.setWindowTitle("Mood Thingy")
+        self.setWindowTitle("Daliy Log")
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.SUBMIT.clicked.connect(self.submitted)
@@ -27,8 +28,14 @@ class MoodApp(QtWidgets.QMainWindow):
         l.addWidget(self.canvas) # Add canvas to layout
         w = self.ui.DRAW_INPUT.width()
         h = self.ui.DRAW_INPUT.height()
+        print(str(w) + " " + str(h))
         #scaling the pixmap to the DRAW_INPUT label
-        self.ui.DRAW_INPUT.setPixmap(self.canvas.pixmap().scaled(w,h,QtCore.Qt.KeepAspectRatio))
+        #self.ui.DRAW_INPUT.setPixmap(self.canvas.pixmap().scaled(w,h,QtCore.Qt.KeepAspectRatio))
+
+        # w = QtWidgets.QWidget() # Create widget
+        # l = QtWidgets.QVBoxLayout() # Vertical box layout
+        # w.setLayout(l)
+        # l.addWidget(self.canvas) # Add canvas to layout
 
         palette = QtWidgets.QHBoxLayout() # Horizontal box layout
         self.add_palette_buttons(palette) 
@@ -42,6 +49,7 @@ class MoodApp(QtWidgets.QMainWindow):
         # self.ava_hat = 0
         # self.streak = 0
         self.load_info()
+        self.check_streak()
         self.ui.STREAK.setText("Streak: " + str(self.streak))
         self.ui.POINTS.setText("Points: " + str(self.user_points))
         self.save_info()
@@ -57,6 +65,8 @@ class MoodApp(QtWidgets.QMainWindow):
         text = self.ui.TEXT_INPUT.toPlainText()
         file.write(text)
         file.close()
+        #TODO: prevent the user from clicking submit multple times
+        self.streak = int(self.streak) + 1
         self.canvas.save_image()
 
     def add_palette_buttons(self, layout):
@@ -83,14 +93,22 @@ class MoodApp(QtWidgets.QMainWindow):
                 elif list[0] == "ava_hat":
                     self.ava_hat = list[1]
         info_file.close()
-    
+
+    def check_streak(self):
+        yesterday = date.today() - timedelta(days=1)
+        yesterday = yesterday.strftime("%m-%d-%Y")
+        wanted_path = Path(os.path.join(os.path.dirname(os.path.abspath(__file__)),'yesterday') +"\\" + yesterday + ".txt")
+        if not wanted_path.is_file():
+            #streak is broken awwwww man
+            self.streak = 0
+
     def save_info(self):
         print("Saved")
         wanted_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'info.txt')
         info_file = open(wanted_path, 'w')
-        self.user_points = int(self.user_points) + 1
-        self.streak = int(self.streak) + 1
-        self.ava_hat = int(self.ava_hat) + 1
+        # self.user_points = int(self.user_points) + 1
+        # self.streak = int(self.streak) + 1
+        # self.ava_hat = int(self.ava_hat) + 1
         info_file.write("streak: " + str(self.streak) + "\nava_hat: "+ str(self.ava_hat) + "\npoints: "+ str(self.user_points) + "\n")
         info_file.close()
 
@@ -160,8 +178,7 @@ class PastWindow(QtWidgets.QDialog):
         
     def close_past(self):
         self.close()
-                
-       
+                  
 
 
 def window():
