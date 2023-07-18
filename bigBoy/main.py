@@ -1,8 +1,8 @@
 from drawBig import Canvas, COLORS, QPaletteButton
 import sys, os
-from PyQt5 import QtCore, QtWidgets, Qt
+from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QDialog
+from PyQt5.QtWidgets import QApplication
 from mainVOne import Ui_MainWindow
 from pastVOne import Ui_Dialog
 from datetime import date
@@ -10,6 +10,7 @@ from pathlib import Path
 import shutil
 import re
 from datetime import date, timedelta
+import math
 #main window where the user draws and writes fo rthe days entrys
 
 class MoodApp(QtWidgets.QMainWindow):
@@ -29,14 +30,6 @@ class MoodApp(QtWidgets.QMainWindow):
         w = self.ui.DRAW_INPUT.width()
         h = self.ui.DRAW_INPUT.height()
         print(str(w) + " " + str(h))
-        #scaling the pixmap to the DRAW_INPUT label
-        #self.ui.DRAW_INPUT.setPixmap(self.canvas.pixmap().scaled(w,h,QtCore.Qt.KeepAspectRatio))
-
-        # w = QtWidgets.QWidget() # Create widget
-        # l = QtWidgets.QVBoxLayout() # Vertical box layout
-        # w.setLayout(l)
-        # l.addWidget(self.canvas) # Add canvas to layout
-
         palette = QtWidgets.QHBoxLayout() # Horizontal box layout
         self.add_palette_buttons(palette) 
         l.addLayout(palette)
@@ -45,28 +38,26 @@ class MoodApp(QtWidgets.QMainWindow):
         self.ui.SUBMIT.setText("Submit Entry")
         self.ui.PAST_ENTRY.setText("View past entrys")
 
-        # self.user_points = 0
-        # self.ava_hat = 0
-        # self.streak = 0
         self.load_info()
         self.check_streak()
         self.ui.STREAK.setText("Streak: " + str(self.streak))
         self.ui.POINTS.setText("Points: " + str(self.user_points))
-        self.save_info()
 
     #once the user is ready, hits submit button - ends up here
     #saves the drawing as a .png and the text as a .txt
     def submitted(self):
-        #add to our hashmap# today = date.today().strftime("%d/%m/%Y") # d1 = today.strftime("%d/%m/%Y") "dd/mm/YY"
+        #add to our hashmap#
         today = date.today().strftime("%m-%d-%Y")
         dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastText')
         file_name = dir +"\\" + today +".txt"
+        today_file = Path(dir +"\\" + today + ".txt")
+        if not today_file.is_file():
+            self.calulate_points_streak()
         file = open(file_name, 'w')
         text = self.ui.TEXT_INPUT.toPlainText()
         file.write(text)
         file.close()
-        #TODO: prevent the user from clicking submit multple times
-        self.streak = int(self.streak) + 1
+        self.save_info()
         self.canvas.save_image()
 
     def add_palette_buttons(self, layout):
@@ -94,22 +85,27 @@ class MoodApp(QtWidgets.QMainWindow):
                     self.ava_hat = list[1]
         info_file.close()
 
+    def calulate_points_streak(self):
+        self.streak = int(self.streak) + 1
+        self.ui.STREAK.setText("Streak: " + str(self.streak))
+        points_calculated = 5 * math.log(self.streak*2)
+        self.user_points = round(points_calculated + float(self.user_points))
+        self.ui.POINTS.setText("Points: " + str(self.user_points))     
+
     def check_streak(self):
         yesterday = date.today() - timedelta(days=1)
         yesterday = yesterday.strftime("%m-%d-%Y")
-        wanted_path = Path(os.path.join(os.path.dirname(os.path.abspath(__file__)),'yesterday') +"\\" + yesterday + ".txt")
+        wanted_path = Path(os.path.join(os.path.dirname(os.path.abspath(__file__)),'pastText') +"\\" + yesterday + ".txt")
         if not wanted_path.is_file():
             #streak is broken awwwww man
+            print("we are getting here! sad!: "+ str(wanted_path))
             self.streak = 0
 
     def save_info(self):
         print("Saved")
         wanted_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'info.txt')
         info_file = open(wanted_path, 'w')
-        # self.user_points = int(self.user_points) + 1
-        # self.streak = int(self.streak) + 1
-        # self.ava_hat = int(self.ava_hat) + 1
-        info_file.write("streak: " + str(self.streak) + "\nava_hat: "+ str(self.ava_hat) + "\npoints: "+ str(self.user_points) + "\n")
+        info_file.write("streak:" + str(self.streak) + "\nava_hat:"+ str(self.ava_hat) + "\npoints:"+ str(self.user_points) + "\n")
         info_file.close()
 
 # window that shows past entries  

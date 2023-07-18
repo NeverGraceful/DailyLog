@@ -4,8 +4,6 @@ from PyQt5.QtCore import Qt
 from datetime import date
 from pathlib import Path
 
-
-
 class Canvas(QtWidgets.QLabel):
      
     def __init__(self):
