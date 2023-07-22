@@ -17,13 +17,11 @@ class MoodApp(QtWidgets.QMainWindow):
     #sets up UI, does the formatting for the canvas
     def __init__(self):
         super(MoodApp, self).__init__()       
-
         self.setWindowTitle("Daliy Log")
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.SUBMIT.clicked.connect(self.submitted)
-        self.ui.PAST_ENTRY.clicked.connect(self.open_past_entries)
-        
+        # self.ui.SUBMIT.clicked.connect(self.submitted)
+        # self.ui.PAST_ENTRY.clicked.connect(self.open_past_entries)
         self.canvas = Canvas()
         l = QtWidgets.QVBoxLayout() # Vertical box layout
         self.ui.DRAW_INPUT.setLayout(l)
@@ -38,12 +36,11 @@ class MoodApp(QtWidgets.QMainWindow):
         self.ui.CURRENT_DATE.setText(date.today().strftime("%d/%m/%Y"))
         self.ui.SUBMIT.setText("Submit Entry")
         self.ui.PAST_ENTRY.setText("View past entrys")
-
-        self.load_info()
-        self.check_streak()
-        self.ui.STREAK.setText("Streak: " + str(self.streak))
-        self.ui.POINTS.setText("Points: " + str(self.user_points))
         
+        # self.load_info()
+        # self.check_streak()
+        # self.ui.STREAK.setText("Streak: " + str(self.streak))
+        # self.ui.POINTS.setText("Points: " + str(self.user_points))    
 
     #once the user is ready, hits submit button - ends up here
     #saves the drawing as a .png and the text as a .txt

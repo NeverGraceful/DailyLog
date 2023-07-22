@@ -1,3 +1,3 @@
-streak:5
+streak:1
 ava_hat:9
-points:47
+points:50
