@@ -1,4 +1,3 @@
-import typing
 import drawBig
 import sys, os
 from PyQt5 import QtWidgets, QtCore, uic
