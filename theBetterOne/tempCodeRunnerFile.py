@@ -1,3 +1,2 @@
-def setup_block(self):
-    #     pixmap = QPixmap("avatar" + "\\" + 'block.png')
-    #     self.ui.AVATAR.setPixmap(pixmap)
+pixmap = QPixmap("avatar" + "\\" + 'hat.png')
+        # self.ui.AVATAR_HAT.setPixmap(pixmap)
