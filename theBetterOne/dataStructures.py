@@ -6,5 +6,5 @@ items = {
 
 customize = ["bodies", "hats", "clothes"]
 hats = ["ChefHat","ChickenHat","CowboyHat","PropellerHat"]
-clothes = []
-bodies = []
+clothes = ["NoClothes", "littleguy"]
+bodies = ["Bbaby"]
