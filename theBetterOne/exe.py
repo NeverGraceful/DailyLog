@@ -3,14 +3,15 @@ import sys, os
 from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QWidget, QSlider, QLineEdit, QLabel , QPushButton, QHBoxLayout, QVBoxLayout, QMainWindow
-import mainVOne, pastVOne, shop
+from PyQt5.QtWidgets import QApplication, QWidget, QSlider, QLineEdit, QLabel , QPushButton, QLayout, QMainWindow
+import mainVOne, pastVOne, shop, dataStructures
 from datetime import date
 from pathlib import Path
 import shutil
 import re
 from datetime import date, timedelta
 import math
+
 
 class MoodApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -105,6 +106,8 @@ class MoodApp(QtWidgets.QMainWindow):
                         self.ava_hat = list[1]
                     case "ava_body":
                         self.ava_body = list[1]
+                    case "ava_clothes":
+                        self.ava_clothes = list[1]
         info_file.close()
 
     def add_palette_buttons(self, layout):
@@ -198,8 +201,7 @@ class PastWindow(QtWidgets.QDialog):
             print("application path "+ application_path)
 
         return application_path
-
-        
+    
     def close_past(self):
         self.close()
 
@@ -209,13 +211,44 @@ class ShopWindow(QtWidgets.QDialog):
         self.ui = shop.Ui_Dialog()
         self.ui.setupUi(self)
         self.setWindowTitle('Shop')
+        print("Current hat: "+str(self.ava_hat))
+        self.setup_avatar()
+        self.fill_shop()
+        
+    def setup_avatar(self):
+        pixmap = QPixmap("avatar" + "\\" + "body" + "\\" + self.ava_body + '.png')
+        self.ui.AVATAR_BODY.setPixmap(pixmap)
+        pixmap = QPixmap("avatar" + "\\" + "hat" + "\\" + self.ava_hat + '.png')
+        self.ui.AVATAR_HAT.setPixmap(pixmap)
+        pixmap = QPixmap("avatar" + "\\" + "clothes" + "\\" + self.ava_clothes + '.png')
+        self.ui.AVATAR_CLOTHES.setPixmap(pixmap)
+
+    def fill_shop(self):
         self.ui.SCROLL = QtWidgets.QScrollArea(self)
-        self.vbox = QVBoxLayout()
-
-        for i in range(1,40):
-            object = QPushButton("haha")
-            self.vbox.addWidget(object)
-
+        self.vbox = QtWidgets.QGridLayout()
+        
+        #get num of total shop items
+        for custom in dataStructures.customize:
+            dir_path = os.path.join(self.find_path(),'avatar') +"\\" + custom
+            count = 0
+            for path in os.listdir(dir_path):
+                if os.path.isfile(os.path.join(dir_path, path)):
+                    count += 1
+            
+            if custom == "bodies":
+                array = dataStructures.bodies
+            elif custom == "hats":
+                array = dataStructures.hats
+            else:
+                array = dataStructures.clothes
+            
+            for cur_thingy in array:
+                cur_thingy_path =  dir_path + cur_thingy
+                #TODO: include spaces 
+                object = QPushButton(cur_thingy)
+                object.clicked.connect(self.get_item)
+                self.vbox.addWidget(object)
+                
         self.ui.SHOP.setLayout(self.vbox)
 
         self.ui.SCROLL.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -223,6 +256,40 @@ class ShopWindow(QtWidgets.QDialog):
         self.ui.SCROLL.setWidgetResizable(True)
         self.ui.SCROLL.setWidget(self.ui.SHOP)
         self.ui.SCROLL.setGeometry(210, 40, 261, 351)
+
+    def get_item(self):
+        #show the price somewhere
+        #see if the user can buy it 
+        #maybe user can try it on????/ idk
+        current_thingy = self.sender()
+        if current_thingy in dataStructures.hats:
+            self.try_on("hats", current_thingy)
+        elif current_thingy in dataStructures.clothes:
+            self.try_on("clothes", current_thingy)
+        else:
+            self.try_on("bodies", current_thingy)
+        #get rid of space here?????
+        
+    def try_on(self, shop_type, current_thingy):
+        pixmap = QPixmap("avatar" + "\\" + shop_type + "\\" + str(current_thingy) + '.png')
+        if shop_type == "hats":
+            self.ui.AVATAR_HAT.setPixmap(pixmap)
+        elif shop_type == "clothes":
+            self.ui.AVATAR_CLOTHES.setPixmap(pixmap)
+        else:
+            self.ui.AVATAR_BODY.setPixmap(pixmap)
+    
+    def find_path(self):
+        print(os.path.dirname(sys.executable))
+        application_path = 0
+        if getattr(sys, 'frozen', False):
+            application_path = os.path.dirname(sys.executable)
+        else:
+            print("making it here lolol")
+            application_path = os.path.dirname(os.path.abspath(__file__))
+            print("application path "+ application_path)
+
+        return application_path
 
 def window():
     app = QApplication(sys.argv)

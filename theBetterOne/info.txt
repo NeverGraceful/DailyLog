@@ -1,4 +1,5 @@
 streak:2
-ava_hat:Hchicken
+ava_hat:ChickenHat
 ava_body:Bbaby
+ava_clothes:littleguy
 points:57
