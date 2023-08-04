@@ -111,7 +111,7 @@ class MoodApp(QtWidgets.QMainWindow):
                         self.ava_body = list[1]
                     case "ava_clothes":
                         self.ava_clothes = list[1]
-        info_file.close()
+            info_file.close()
 
     def add_palette_buttons(self, layout):
         for c in drawBig.COLORS:

@@ -1,8 +1,5 @@
-streak:3
+streak:1
 ava_hat:ChickenHat
 ava_body:Bbaby
 ava_clothes:NoClothes
-points:66
-hat_inventory: 
-clothes_inventory:
-bodies_inventory:
+points:69

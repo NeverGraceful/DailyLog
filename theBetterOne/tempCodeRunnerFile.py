@@ -1,8 +1,17 @@
-def setup_avatar(self):
-        cur_path = Path(os.path.join(self.find_path(),'avatar'))
-        pixmap = QPixmap(os.path.join(cur_path, "bodies" + "\\" + self.ava_body + '.png'))
-        self.ui.AVATAR_BODY.setPixmap(pixmap)
-        pixmap = QPixmap(os.path.join(cur_path, "hats" + "\\" + self.ava_hat + '.png'))
-        self.ui.AVATAR_HAT.setPixmap(pixmap)
-        pixmap = QPixmap(os.path.join(cur_path, "clothes" + "\\" + self.ava_clothes + '.png'))
-        self.ui.AVATAR_CLOTHES.setPixmap(pixmap)
+wanted_path = os.path.join(self.find_path(),'info.txt')
+        with open(wanted_path) as info_file:
+            for line in info_file:
+                list = (re.split(':|\n', line))
+                print(list)
+                match list[0]:
+                    case "streak":
+                        self.streak = list[1]
+                    case "points":
+                        self.user_points = list[1]
+                    case "ava_hat":
+                        self.ava_hat = list[1]
+                    case "ava_body":
+                        self.ava_body = list[1]
+                    case "ava_clothes":
+                        self.ava_clothes = list[1]
+        info_file.close()

@@ -1,0 +1,4 @@
+streak:1
+ava_hat:Hchef
+ava_body:Bbaby
+points:50
