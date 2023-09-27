@@ -1,5 +1,0 @@
-streak:1
-ava_hat:ChickenHat
-ava_body:Bbaby
-ava_clothes:NoClothes
-points:69
